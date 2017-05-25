@@ -1,0 +1,9 @@
+<h3>Here are all the albums by this artist:</h3>
+<ul>
+  @foreach (var cd in @Model["cds"])
+  {
+    <li>@cd.GetDescription()</li>
+  }
+</ol>
+<p><a href="/artists/@Model["artist"].GetId()/cds/new">Add a new CD</a></p>
+<p><a href="/">Return Home</a></p>

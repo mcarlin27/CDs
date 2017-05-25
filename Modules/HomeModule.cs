@@ -35,6 +35,14 @@ namespace CD.Objects
         List<Artist> allArtists = Artist.GetAll();
         return View["artists.cshtml", allArtists];
       };
+      Get["/artists/{id}"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        Artist selectedArtist = Artist.Find(parameters.id);
+        List<CD> artistCDs = selectedArtist.GetCDs();
+        model.Add("artist", selectedArtist);
+        model.Add("cds", artistCDs);
+        return View["artist_disco.cshtml", model];
+      };
     }
   }
 }
