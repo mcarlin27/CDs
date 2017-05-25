@@ -18,6 +18,10 @@ namespace CD.Objects
       Get["/cds/new"] = _ => {
         return View["cd_form.cshtml"];
       };
+      Get["/artists"] = _ => {
+        List<Artist> allArtists = Artist.GetAll();
+        return View["artists.cshtml", allArtists];
+      };
       Post["/cds"] = _ => {
         CD newCD = new CD(Request.Form["cd-name"]);
         List<CD> allCDs = CD.GetAll();
