@@ -5,13 +5,15 @@ namespace CD.Objects
   public class CD
   {
     private string _description;
+    private string _artist;
     private int _id;
     private static List<CD> _instances = new List<CD> {};
-    public CD (string description)
+    public CD (string description, string artist)
     {
       _description = description;
       _instances.Add(this);
       _id = _instances.Count;
+      _artist = artist;
     }
     public string GetDescription()
     {
@@ -28,6 +30,14 @@ namespace CD.Objects
     public int GetId()
     {
       return _id;
+    }
+    public string GetArtist()
+    {
+      return _artist;
+    }
+    public void SetArtist (string newArtist)
+    {
+      _artist = newArtist;
     }
     public static CD Find(int searchId)
     {

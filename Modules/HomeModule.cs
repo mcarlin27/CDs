@@ -15,9 +15,6 @@ namespace CD.Objects
         List<CD> allCDs = CD.GetAll();
         return View["cds.cshtml", allCDs];
       };
-      Get["/cds/new"] = _ => {
-        return View["cd_form.cshtml"];
-      };
       Get["/artists"] = _ => {
         List<Artist> allArtists = Artist.GetAll();
         return View["artists.cshtml", allArtists];
@@ -26,7 +23,10 @@ namespace CD.Objects
         return View["artist_form.cshtml"];
       };
       Post["/cds"] = _ => {
-        CD newCD = new CD(Request.Form["cd-name"]);
+        Artist selectedArtist = Artist.Find(Request.Form["artist-id"]);
+        CD newCD = new CD(Request.Form["cd-name"], selectedArtist.GetName());
+        selectedArtist.AddCD(newCD);
+        newCD.SetArtist(selectedArtist.GetName());
         List<CD> allCDs = CD.GetAll();
         return View["cds.cshtml", allCDs];
       };
@@ -54,9 +54,10 @@ namespace CD.Objects
       Post["/cds"] = _ => {
         Dictionary<string, object> model = new Dictionary<string, object>();
         Artist selectedArtist = Artist.Find(Request.Form["artist-id"]);
+        string artistName = selectedArtist.GetName();
         List<CD> artistDisco = selectedArtist.GetCDs();
         string cdName = Request.Form["cd-name"];
-        CD newCD = new CD(cdName);
+        CD newCD = new CD(cdName, artistName);
         artistDisco.Add(newCD);
         model.Add("cds", artistDisco);
         model.Add("artist", selectedArtist);
