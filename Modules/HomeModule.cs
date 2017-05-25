@@ -43,6 +43,25 @@ namespace CD.Objects
         model.Add("cds", artistCDs);
         return View["artist_disco.cshtml", model];
       };
+      Get["/artists/{id}/cds/new"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        Artist selectedArtist = Artist.Find(parameters.id);
+        List<CD> artistCDs = selectedArtist.GetCDs();
+        model.Add("artist", selectedArtist);
+        model.Add("cds", artistCDs);
+        return View["artist_cd_form.cshtml", model];
+      };
+      Post["/cds"] = _ => {
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        Artist selectedArtist = Artist.Find(Request.Form["artist-id"]);
+        List<CD> artistDisco = selectedArtist.GetCDs();
+        string cdName = Request.Form["cd-name"];
+        CD newCD = new CD(cdName);
+        artistDisco.Add(newCD);
+        model.Add("cds", artistDisco);
+        model.Add("artist", selectedArtist);
+        return View["artist_disco.cshtml", model];
+      };
     }
   }
 }
