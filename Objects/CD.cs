@@ -31,6 +31,10 @@ namespace CD.Objects
     {
       return _id;
     }
+    public bool Contains(string value)
+    {
+      return true;
+    }
     public string GetArtist()
     {
       return _artist;

@@ -63,6 +63,21 @@ namespace CD.Objects
         model.Add("artist", selectedArtist);
         return View["artist_disco.cshtml", model];
       };
+      Get["/search-artist"] = _ => {
+        return View["search_function.cshtml"];
+      };
+      Post["/search-artist"] = _ => {
+        List<CD> allCDs = CD.GetAll();
+        List<CD> displayCD = new List<CD>();
+        string userSearch = Request.Form["search-CD"];
+        foreach (CD cd in allCDs)
+        {
+          if ((cd.GetDescription().Contains(userSearch)) == true) {
+            displayCD.Add(cd);
+          }
+        }
+        return View["search_results.cshtml", displayCD];
+      };
     }
   }
 }
